@@ -370,7 +370,9 @@ H = tapas_riddershessian(obj_fun, r.optim.argMin, options);
 if any(isinf(H(:))) || any(isnan(H(:))) || any(eig(H)<=0)
     if isfield(r.optim, 'T')
         % Hessian of the negative log-joint at the MAP estimate
-        H     = inv(r.optim.T);
+        % (avoid asymmetry caused by rounding errors)
+        H = inv(r.optim.T);
+        H = (H' + H)./2;
         % Parameter covariance 
         Sigma = r.optim.T;
         % Parameter correlation
@@ -381,8 +383,10 @@ if any(isinf(H(:))) || any(isnan(H(:))) || any(eig(H)<=0)
         disp('Warning: Cannot calculate Sigma and LME because the Hessian is not positive definite.')
     end
 else
-    % Parameter covariance
+    % Calculate parameter covariance (and avoid asymmetry caused by
+    % rounding errors)
     Sigma = inv(H);
+    Sigma = (Sigma' + Sigma)./2;
     % Parameter correlation
     Corr = tapas_Cov2Corr(Sigma);
     % Log-model evidence ~ negative variational free energy
@@ -435,7 +439,7 @@ end
 % Calculate the log-likelihood of observed responses given the perceptual trajectories,
 % under the observation model
 trialLogLls = obs_fun(r, infStates, ptrans_obs);
-logLl = nansum(trialLogLls);
+logLl = sum(trialLogLls, 'omitnan');
 negLogLl = -logLl;
 
 % Calculate the log-prior of the perceptual parameters.
