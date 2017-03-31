@@ -20,7 +20,7 @@ c = struct;
 c.algorithm = 'BFGS quasi-Newton';
 
 % Verbosity
-c.verbose   = false;
+c.verbose   = true;
 
 % Options for optimization
 c.tolGrad = 1e-3;
