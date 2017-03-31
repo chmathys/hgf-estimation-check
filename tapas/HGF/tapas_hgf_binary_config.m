@@ -119,10 +119,10 @@ c.irregular_intervals = false;
 % and the second implies neutrality between outcomes when it
 % is centered at 0.
 c.mu_0mu = [NaN, 0, 1];
-c.mu_0sa = [NaN, 0, 0];
+c.mu_0sa = [NaN, 1, 0];
 
-c.logsa_0mu = [NaN,   log(0.1), log(1)];
-c.logsa_0sa = [NaN,          0,      0];
+c.logsa_0mu = [NaN,   log(1), log(1)];
+c.logsa_0sa = [NaN,        1,      1];
 
 % Rhos
 % Format: row vector of length n_levels.
@@ -136,14 +136,14 @@ c.rhosa = [NaN, 0, 0];
 % Undefined (therefore NaN) at the first level.
 % This should be fixed (preferably to 1) if the observation model
 % does not use mu_i+1 (kappa then determines the scaling of x_i+1).
-c.logkamu = [NaN, log(1)];
-c.logkasa = [NaN,      0];
+c.logkamu = [NaN, log(3)];
+c.logkasa = [NaN,      1];
 
 % Omegas
 % Format: row vector of length n_levels.
 % Undefined (therefore NaN) at the first level.
-c.ommu = [NaN,  -3,  -6];
-c.omsa = [NaN, 4^2, 4^2];
+c.ommu = [NaN, -4,  -6]; % log(0.0025) = -6
+c.omsa = [NaN,  0,   1];
 
 % Gather prior settings in vectors
 c.priormus = [
